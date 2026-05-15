@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soulayman's React Journey</title>
+    <style>
+        /* --- CORE STYLES --- */
+        :root {
+            --primary: #61DAFB; /* React Blue */
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- GRID LAYOUT --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* --- AMAZING CARD DESIGN --- */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none; /* Remove underline from link */
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 350px;
+        }
+
+        /* Hover Effects */
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -5px rgba(97, 218, 251, 0.15);
+            border-color: var(--primary);
+        }
+
+        /* The glowing circle background effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            filter: blur(60px);
+            opacity: 0.2;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 0.4;
+        }
+
+        /* --- CARD CONTENT --- */
+        .card-number {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            flex-grow: 1; /* Pushes button to bottom */
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: var(--text-muted);
+        }
+
+        .launch-btn {
+            margin-top: 25px;
+            background: linear-gradient(90deg, var(--primary), #21a1f1);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .card:hover .launch-btn {
+            filter: brightness(1.1);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- DISABLED CARD (For Future) --- */
+        .card.locked {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+        .card.locked .launch-btn {
+            background: #334155;
+            color: #94a3b8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>React JS Ateliers</h1>
+        <p class="subtitle">My journey mastering React, one component at a time.</p>
+    </header>
+
+    <div class="grid-container">
+
+        <a href="https://solayman_the_first.gitlab.io/react/" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 01</div>
+                <h2 class="card-title">FruityApp</h2>
+                <p class="card-desc">
+                    Introduction to React concepts. Built a responsive fruit application using Functional Components, Props, State, and Conditional Rendering.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">React 18</span>
+                    <span class="badge">Vite</span>
+                    <span class="badge">JSX</span>
+                    <span class="badge">GitLab Pages</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier2-25eaf7.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 02</div>
+                <h2 class="card-title">Profile Cards</h2>
+                <p class="card-desc">
+                    A dynamic profile manager. Mastered reusable Components and Props, integrated Bootstrap for layout, and handled list rendering with .map().
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">Bootstrap 5</span>
+                    <span class="badge">Props</span>
+                    <span class="badge">Lists</span>
+                    <span class="badge">Images</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier3-3c3f88.gitlab.io/" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 04</div>
+                <h2 class="card-title">User Preferences</h2>
+                <p class="card-desc">
+                    Interactive dashboard. Managed preferences with Radio Buttons and dynamic Select inputs. Used <strong>useRef</strong> to handle bulk Checkbox selection efficiently.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">useRef</span>
+                    <span class="badge">Conditional Rendering</span>
+                    <span class="badge">State</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier5-25cffd.gitlab.io/" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 05</div>
+                <h2 class="card-title">WorldQuest</h2>
+                <p class="card-desc">
+                    A dynamic global explorer. Mastered <strong>API integration</strong> using Axios and useEffect. Features robust state management for client-side pagination, live search filtering, and population sorting.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">Axios</span>
+                    <span class="badge">REST API</span>
+                    <span class="badge">useEffect</span>
+                    <span class="badge">Pagination</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier6-25dc26.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 06</div>
+                <h2 class="card-title">Planify App</h2>
+                <p class="card-desc">
+                    <strong>Full-Stack Task Manager</strong>. Connected a React frontend to a custom <strong>Flask (Python)</strong> API. Implemented full CRUD operations (Add, Update, Delete) with persistent storage on PythonAnywhere.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">React + Flask</span>
+                    <span class="badge">Python API</span>
+                    <span class="badge">CRUD</span>
+                    <span class="badge">Fetch</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier7-c288ff.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 07</div>
+                <h2 class="card-title">Book Explorer</h2>
+                <p class="card-desc">
+                    <strong>Multi-page SPA</strong> using React Router. Features seamless navigation without page reloads, dynamic URL parameters (<strong>useParams</strong>) for book details, and custom 404 error handling.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">React Router</span>
+                    <span class="badge">SPA</span>
+                    <span class="badge">Dynamic Routing</span>
+                    <span class="badge">Bootstrap</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://cc-06c08e.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Contrôle 1</div>
+                <h2 class="card-title">Gestion Salariés</h2>
+                <p class="card-desc">
+                    <strong>Employee Management System</strong>. A complete dashboard featuring forms, real-time filtering by service, and data tables. Demonstrates solid React state handling and Bootstrap UI integration.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">React Forms</span>
+                    <span class="badge">State</span>
+                    <span class="badge">Filtering</span>
+                    <span class="badge">Bootstrap</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier8-7993dd.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 09</div>
+                <h2 class="card-title">Tangier CAN 2025</h2>
+                <p class="card-desc">
+                    <strong>Global State Management</strong> using the <strong>Context API</strong>. A multilingual welcome app (Arabic, English, French, Spanish) featuring Dark Mode switching, Flags, and React Router navigation.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">Context API</span>
+                    <span class="badge">React Router</span>
+                    <span class="badge">Multilingual</span>
+                    <span class="badge">Bootstrap</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier9-01df22.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 10</div>
+                <h2 class="card-title">Redux Todo List</h2>
+                <p class="card-desc">
+                    <strong>Centralized State Management</strong> with Redux. Implemented the Store-Reducer pattern to manage global application state. Features task filtering (All/Active/Completed) and strict separation of logic and UI.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">Redux</span>
+                    <span class="badge">React-Redux</span>
+                    <span class="badge">Store & Reducers</span>
+                    <span class="badge">Actions</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://atelier10-7db0b8.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 11</div>
+                <h2 class="card-title">Toolkit Todo List</h2>
+                <p class="card-desc">
+                    <strong>Modern Redux Architecture</strong>. A simplified state management approach using <strong>Redux Toolkit</strong>. Features <code>createSlice</code> for logic, automatic reducer combination, and streamlined store configuration.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">Redux Toolkit</span>
+                    <span class="badge">createSlice</span>
+                    <span class="badge">configureStore</span>
+                    <span class="badge">Vite</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+        <a href="https://fullstack-shop-9cde76.gitlab.io" target="_blank" class="card">
+            <div>
+                <div class="card-number">Atelier 12</div>
+                <h2 class="card-title">FullStack Shop</h2>
+                <p class="card-desc">
+                    <strong>E-Commerce Cart System</strong>. Built a complete shopping experience with <strong>Redux Toolkit</strong>. Includes product catalog, dynamic cart management (Add/Remove/Qty), and real-time total calculation.
+                </p>
+                <div class="tech-stack">
+                    <span class="badge">Redux Toolkit</span>
+                    <span class="badge">Cart Logic</span>
+                    <span class="badge">Bootstrap 5</span>
+                    <span class="badge">React Router</span>
+                </div>
+            </div>
+            <div class="launch-btn">
+                Launch App 🚀
+            </div>
+        </a>
+
+    </div>
+
+</body>
+</html>
