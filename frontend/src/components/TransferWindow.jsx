@@ -127,8 +127,42 @@ const TransferWindow = () => {
 
             <form 
               className="flex flex-col gap-6" 
-              action="https://formspree.io/f/xpwgdnnk" 
-              method="POST"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                try {
+                  // 1. Send to Formspree (External Email Notification)
+                  // Note: Replace the ID with your actual Formspree ID if needed
+                  fetch("https://formspree.io/f/mqaeardz", {
+                      method: "POST",
+                      body: formData,
+                      headers: { 'Accept': 'application/json' }
+                  });
+
+                  // 2. Log to Local Database (Dashboard Tracking)
+                  const response = await fetch('http://127.0.0.1:8000/api/bids', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                  });
+
+                  if (response.ok) {
+                    alert('OFFICIAL BID SUBMITTED. S.DEV AGENTS WILL REVIEW SHORTLY.');
+                    form.reset();
+                  } else {
+                    throw new Error('Database logging failed');
+                  }
+                } catch (err) {
+                  console.error('Submission error:', err);
+                  alert('TECHNICAL ERROR IN SUBMISSION. PLEASE TRY DIRECT EMAIL.');
+                }
+              }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">

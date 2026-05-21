@@ -3,8 +3,13 @@ import { motion } from 'framer-motion';
 
 const ProfileImageSwap = () => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [hero, setHero] = useState(null);
 
   useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/hero')
+      .then(res => res.json())
+      .then(data => setHero(data));
+
     const interval = setInterval(() => {
       setIsFlipped(prev => !prev);
     }, 6000);
@@ -51,7 +56,7 @@ const ProfileImageSwap = () => {
           className="bg-white/90 backdrop-blur-md border border-emerald-100 shadow-xl rounded-xl p-3 flex flex-col items-center justify-center"
         >
           <span className="text-2xl mb-1">🇲🇦</span>
-          <span className="text-[10px] font-mono font-bold text-emerald-900 tracking-widest uppercase">Tangier</span>
+          <span className="text-[10px] font-mono font-bold text-emerald-900 tracking-widest uppercase">{hero?.location?.split(',')[0] || 'Tangier'}</span>
         </motion.div>
       </div>
 
@@ -62,10 +67,9 @@ const ProfileImageSwap = () => {
           transition={{ delay: 1, type: "spring" }}
           className="bg-emerald-900 border-2 border-white shadow-xl rounded-xl p-4 flex flex-col items-center justify-center"
         >
-          <span className="text-[10px] font-mono text-emerald-300 font-bold tracking-widest uppercase mb-1">Playmaker</span>
+          <span className="text-[10px] font-mono text-emerald-300 font-bold tracking-widest uppercase mb-1">{hero?.tactical_position || 'Playmaker'}</span>
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-black font-heading text-white tracking-tighter">99</span>
-            <span className="text-xs text-emerald-400 font-bold">OVR</span>
+            <span className="text-3xl font-black font-heading text-white tracking-tighter">{hero?.ovr || '99'}</span>
           </div>
         </motion.div>
       </div>
@@ -77,7 +81,7 @@ const ProfileImageSwap = () => {
           transition={{ delay: 1.2, type: "spring" }}
           className="bg-rose-700 border-2 border-white shadow-lg rounded-full w-12 h-12 flex items-center justify-center"
          >
-            <span className="text-white font-bold font-mono text-sm">ST</span>
+            <span className="text-white font-bold font-mono text-sm">{hero?.role_badge || 'ST'}</span>
          </motion.div>
       </div>
 

@@ -1,33 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Database, Layout, Code, Server, Smartphone, Globe } from 'lucide-react';
 
-const projects = [
-  {
-    title: "EcoTrack Dashboard",
-    type: "Frontend Engine",
-    desc: "A responsive carbon footprint tracker visualizing user habits with modern charts and animated state transitions.",
-    tech: ["React", "Tailwind", "Recharts"],
-    icon: Layout,
-    stats: { Logic: 88, UI: 92, DB: 75 }
-  },
-  {
-    title: "AuthFlow Microservice",
-    type: "Backend System",
-    desc: "A robust JWT-based authentication API with role-based access control and rate-limiting defenses.",
-    tech: ["Node.js", "Express", "MongoDB"],
-    icon: Server,
-    stats: { Logic: 95, UI: 60, DB: 88 }
-  },
-  {
-    title: "Inventory API",
-    type: "Database Logic",
-    desc: "A relational database schema and API managing complex product variants, stock tracking, and supplier logs.",
-    tech: ["Laravel", "MySQL", "Eloquent"],
-    icon: Database,
-    stats: { Logic: 90, UI: 65, DB: 94 }
-  }
-];
+const iconMap = {
+  Layout: Layout,
+  Server: Server,
+  Database: Database,
+  Code: Code,
+  Smartphone: Smartphone,
+  Globe: Globe,
+};
 
 const StatBar = ({ label, value }) => {
   const isTop = value >= 90;
@@ -50,6 +32,16 @@ const StatBar = ({ label, value }) => {
 };
 
 const ArchiveModal = ({ isOpen, onClose }) => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetch('http://127.0.0.1:8000/api/academy-projects')
+        .then(res => res.json())
+        .then(data => setProjects(data));
+    }
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -106,24 +98,24 @@ const ArchiveModal = ({ isOpen, onClose }) => {
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-rose-700 mb-1 font-mono">{proj.type}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-rose-700 mb-1 font-mono">{proj.project_type}</div>
                       <h3 className="text-xl font-bold text-emerald-950 font-heading tracking-tight uppercase leading-tight">{proj.title}</h3>
                     </div>
                     <div className="w-10 h-10 bg-[#F8F9FA] rounded-full flex items-center justify-center border border-emerald-900/10 shrink-0">
-                      <proj.icon className="text-emerald-800" size={18} />
+                      {proj.icon && iconMap[proj.icon] && React.createElement(iconMap[proj.icon], { className: "text-emerald-800", size: 18 })}
                     </div>
                   </div>
                   
-                  <p className="text-gray-600 mb-6 text-sm leading-relaxed min-h-[60px]">{proj.desc}</p>
+                  <p className="text-gray-600 mb-6 text-sm leading-relaxed min-h-[60px]">{proj.description}</p>
                   
                   <div className="bg-[#F8F9FA] p-4 rounded-xl mb-6 border border-emerald-900/5">
-                    <StatBar label="Logic" value={proj.stats.Logic} />
-                    <StatBar label="UI / Design" value={proj.stats.UI} />
-                    <StatBar label="DB / Architecture" value={proj.stats.DB} />
+                    <StatBar label="Logic" value={proj.metrics?.Logic || 0} />
+                    <StatBar label="UI / Design" value={proj.metrics?.UI || 0} />
+                    <StatBar label="DB / Architecture" value={proj.metrics?.DB || 0} />
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-emerald-900/10">
-                    {proj.tech.map(t => (
+                    {proj.tech_stack && proj.tech_stack.map(t => (
                       <span key={t} className="px-2 py-1 bg-white text-emerald-800 rounded text-[10px] font-bold uppercase border border-emerald-800/20 shadow-sm font-mono">
                         {t}
                       </span>

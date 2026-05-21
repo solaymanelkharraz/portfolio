@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 const TimelineEvent = ({ year, title, description, side }) => {
@@ -32,6 +32,14 @@ const TimelineEvent = ({ year, title, description, side }) => {
 };
 
 const CareerTimeline = () => {
+  const [events, setEvents] = useState([]);
+  
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/career-events')
+      .then(res => res.json())
+      .then(data => setEvents(data));
+  }, []);
+
   const containerRef = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -58,7 +66,7 @@ const CareerTimeline = () => {
           </h2>
         </div>
 
-        <div ref={containerRef} className="relative max-w-4xl mx-auto pt-10">
+        <div ref={containerRef} className="relative max-w-4xl mx-auto pt-10" style={{ position: "relative" }}>
           {/* Vertical Pitch Line */}
           <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-emerald-900/10 rounded-full overflow-hidden">
             <motion.div 
@@ -68,30 +76,15 @@ const CareerTimeline = () => {
           </div>
 
           {/* Events */}
-          <TimelineEvent 
-            year="2006" 
-            title="The Kickoff" 
-            description="Born and started the journey. Building the foundation and early curiosity." 
-            side="right"
-          />
-          <TimelineEvent 
-            year="2018" 
-            title="The Big Transfer" 
-            description="Moved to Tangier for High School. Establishing the base and focusing on technical maturity." 
-            side="left"
-          />
-          <TimelineEvent 
-            year="2023" 
-            title="Academy Signing" 
-            description="Joined OFPPT Tangier. Deep diving into architecture and full-stack development." 
-            side="right"
-          />
-          <TimelineEvent 
-            year="2026" 
-            title="The First Team" 
-            description="PFE completion and professional career start. Open for high-performance contracts." 
-            side="left"
-          />
+          {events.map((event) => (
+            <TimelineEvent 
+              key={event.id}
+              year={event.year} 
+              title={event.title} 
+              description={event.description} 
+              side={event.side}
+            />
+          ))}
         </div>
       </div>
     </section>

@@ -39,7 +39,49 @@ const SubPlayer = ({ name, icon: Icon }) => (
   </motion.div>
 );
 
+const iconMap = {
+  Layout: Layout,
+  Zap: Zap,
+  Activity: Activity,
+  Network: Network,
+  Code: Code,
+  Cpu: Cpu,
+  Box: Box,
+  Shield: Shield,
+  Database: Database,
+  Server: Server,
+  GitBranch: GitBranch
+};
+
+const positionMapping = {
+  'GK': { x: '50%', y: '88%' },
+  'LB': { x: '18%', y: '72%' },
+  'LCB': { x: '35%', y: '78%' },
+  'CB': { x: '50%', y: '78%' },
+  'RCB': { x: '65%', y: '78%' },
+  'RB': { x: '82%', y: '72%' },
+  'LDM': { x: '40%', y: '60%' },
+  'CDM': { x: '50%', y: '60%' },
+  'RDM': { x: '60%', y: '60%' },
+  'LCM': { x: '35%', y: '45%' },
+  'CM': { x: '50%', y: '45%' },
+  'RCM': { x: '65%', y: '45%' },
+  'CAM': { x: '50%', y: '30%' },
+  'LW': { x: '18%', y: '15%' },
+  'RW': { x: '82%', y: '15%' },
+  'ST': { x: '50%', y: '10%' },
+  'CF': { x: '50%', y: '10%' }
+};
+
 const TacticalPitch = () => {
+  const [skills, setSkills] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/skills')
+      .then(res => res.json())
+      .then(data => setSkills(data));
+  }, []);
+
   return (
     <div className="w-full max-w-4xl mx-auto mt-10 relative">
       
@@ -84,39 +126,36 @@ const TacticalPitch = () => {
         <div className="absolute bottom-6 left-6 w-8 h-8 border-r-2 border-t-2 border-white/30 rounded-tr-full pointer-events-none z-10"></div>
         <div className="absolute bottom-6 right-6 w-8 h-8 border-l-2 border-t-2 border-white/30 rounded-tl-full pointer-events-none z-10"></div>
 
-        {/* --- THE SQUAD (4-3-3 Formation) --- */}
-        
-        {/* ATTACKERS */}
-        <Player name="Tailwind v4" icon={Layout} position={{ top: '20%', left: '25%' }} type="attack" />
-        <Player name="React 19" icon={Zap} position={{ top: '15%', left: '50%' }} type="attack" />
-        <Player name="Framer Motion" icon={Activity} position={{ top: '20%', left: '75%' }} type="attack" />
-
-        {/* MIDFIELD */}
-        <Player name="APIs" icon={Network} position={{ top: '42%', left: '30%' }} type="midfield" />
-        <Player name="JavaScript" icon={Code} position={{ top: '35%', left: '50%' }} type="midfield" />
-        <Player name="n8n" icon={Cpu} position={{ top: '42%', left: '70%' }} type="midfield" />
-
-        {/* DEFENSE */}
-        <Player name="Docker" icon={Box} position={{ top: '65%', left: '20%' }} type="defense" />
-        <Player name="Laravel 11" icon={Shield} position={{ top: '70%', left: '40%' }} type="defense" />
-        <Player name="PHP" icon={Code} position={{ top: '70%', left: '60%' }} type="defense" />
-        <Player name="MongoDB" icon={Database} position={{ top: '65%', left: '80%' }} type="defense" />
-
-        {/* GOALKEEPER */}
-        <Player name="MySQL" icon={Database} position={{ top: '88%', left: '50%' }} type="defense" />
+        {/* --- THE SQUAD (Dynamic from API) --- */}
+        {skills.filter(s => s.is_starter).map((skill) => {
+          const mappedPos = skill.position_code ? positionMapping[skill.position_code] : null;
+          const pos = mappedPos ? { top: mappedPos.y, left: mappedPos.x } : { top: skill.position_y, left: skill.position_x };
+          
+          return (
+            <Player 
+              key={skill.id}
+              name={skill.name} 
+              icon={iconMap[skill.icon_name] || Layout} 
+              position={pos} 
+              type={skill.category.toLowerCase()} 
+            />
+          );
+        })}
         
       </div>
 
       {/* The Bench */}
       <div className="w-full mt-6 bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row items-center gap-6">
         <div className="text-sm font-bold font-mono text-emerald-900 uppercase tracking-widest border-b md:border-b-0 md:border-r border-slate-200 pb-2 md:pb-0 md:pr-6">
-          Substitutes:
+          Substitutes Bench:
         </div>
-        <div className="flex gap-6 overflow-x-auto w-full justify-center md:justify-start">
-          <SubPlayer name="Figma" icon={Layout} />
-          <SubPlayer name="Python" icon={Code} />
-          <SubPlayer name="Cloudinary" icon={Server} />
-          <SubPlayer name="Git" icon={GitBranch} />
+        <div className="flex gap-6 overflow-x-auto w-full justify-center md:justify-start py-2">
+          {skills.filter(s => !s.is_starter).map(skill => (
+            <SubPlayer key={skill.id} name={skill.name} icon={iconMap[skill.icon_name] || Layout} />
+          ))}
+          {skills.filter(s => !s.is_starter).length === 0 && (
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">No substitutes selected</span>
+          )}
         </div>
       </div>
 

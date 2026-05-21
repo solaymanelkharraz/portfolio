@@ -37,12 +37,12 @@ const LiveProjectPreview = ({ title, tech, problem, solution, liveUrl, sourceUrl
   };
 
   return (
-    <motion.div 
+      <motion.div 
       ref={containerRef}
-      style={{ y: yParallax, rotateX, rotateY, transformStyle: "preserve-3d" }}
+      style={{ y: yParallax, rotateX, rotateY, transformStyle: "preserve-3d", position: "relative" }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="bg-white rounded-[2rem] border border-emerald-900/10 flex flex-col xl:flex-row items-stretch group transition-all duration-700 hover:border-emerald-800/30 hover:shadow-2xl mb-16 relative shadow-lg"
+      className="bg-white rounded-[2rem] border border-emerald-900/10 flex flex-col xl:flex-row items-stretch group transition-all duration-700 hover:border-emerald-800/30 hover:shadow-2xl mb-16 shadow-lg"
     >
       {/* Left Side: Tactical Breakdown */}
       <div className="w-full xl:w-[45%] p-8 md:p-10 border-r border-emerald-900/5 relative z-10 flex flex-col justify-between" style={{ transform: "translateZ(30px)" }}>
@@ -145,7 +145,7 @@ const LiveProjectPreview = ({ title, tech, problem, solution, liveUrl, sourceUrl
             src={liveUrl} 
             title={title}
             className="w-full h-full border-none opacity-90 group-hover:opacity-100 transition-opacity duration-700 relative z-0"
-            sandbox="allow-scripts allow-same-origin allow-forms"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
             loading="lazy"
           />
         </div>
