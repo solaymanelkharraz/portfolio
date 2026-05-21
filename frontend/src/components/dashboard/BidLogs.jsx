@@ -11,7 +11,7 @@ const BidLogs = () => {
         const fetchBids = async () => {
             try {
                 const token = localStorage.getItem('auth_token');
-                const res = await fetch('http://127.0.0.1:8000/api/bids', {
+                const res = await fetch('https://portfolio-lrul.onrender.com/api/bids', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Accept': 'application/json'
@@ -35,7 +35,7 @@ const BidLogs = () => {
         
         try {
             const token = localStorage.getItem('auth_token');
-            const res = await fetch(`http://127.0.0.1:8000/api/bids/${id}`, {
+            const res = await fetch(`https://portfolio-lrul.onrender.com/api/bids/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

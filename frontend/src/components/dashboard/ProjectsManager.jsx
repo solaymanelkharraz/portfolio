@@ -37,7 +37,7 @@ const ProjectsManager = () => {
 
     const fetchProjects = async () => {
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/projects');
+            const res = await fetch('https://portfolio-lrul.onrender.com/api/projects');
             const data = await res.json();
             setProjects(data);
         } catch (err) { console.error(err); }
@@ -65,8 +65,8 @@ const ProjectsManager = () => {
         e.preventDefault();
         setSaving(true);
         const url = editingProject 
-            ? `http://127.0.0.1:8000/api/projects/${editingProject.id}`
-            : 'http://127.0.0.1:8000/api/projects';
+            ? `https://portfolio-lrul.onrender.com/api/projects/${editingProject.id}`
+            : 'https://portfolio-lrul.onrender.com/api/projects';
         
         const method = editingProject ? 'PUT' : 'POST';
 
@@ -95,7 +95,7 @@ const ProjectsManager = () => {
     const handleDelete = async (id) => {
         if (!window.confirm('Terminate this project contract? This cannot be undone.')) return;
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/projects/${id}`, {
+            const res = await fetch(`https://portfolio-lrul.onrender.com/api/projects/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

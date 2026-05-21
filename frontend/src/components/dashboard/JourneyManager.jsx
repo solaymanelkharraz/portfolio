@@ -20,7 +20,7 @@ const JourneyManager = () => {
 
     const fetchEvents = async () => {
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/journey');
+            const res = await fetch('https://portfolio-lrul.onrender.com/api/journey');
             const data = await res.json();
             setEvents(data);
         } catch (err) {
@@ -34,8 +34,8 @@ const JourneyManager = () => {
         e.preventDefault();
         const token = localStorage.getItem('auth_token');
         const url = editingEvent 
-            ? `http://127.0.0.1:8000/api/journey/${editingEvent.id}` 
-            : 'http://127.0.0.1:8000/api/journey';
+            ? `https://portfolio-lrul.onrender.com/api/journey/${editingEvent.id}` 
+            : 'https://portfolio-lrul.onrender.com/api/journey';
         const method = editingEvent ? 'PUT' : 'POST';
 
         try {
@@ -63,7 +63,7 @@ const JourneyManager = () => {
         const token = localStorage.getItem('auth_token');
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/journey/${id}`, {
+            const res = await fetch(`https://portfolio-lrul.onrender.com/api/journey/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

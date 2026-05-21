@@ -5,6 +5,7 @@ import HeroAndSkills from '../components/dashboard/HeroAndSkills';
 import ProjectsManager from '../components/dashboard/ProjectsManager';
 import BidLogs from '../components/dashboard/BidLogs';
 import JourneyManager from '../components/dashboard/JourneyManager';
+import ManagerSettings from '../components/dashboard/ManagerSettings';
 
 const Overview = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -43,6 +44,7 @@ const Dashboard = () => {
                 <Route path="/projects" element={<ProjectsManager />} />
                 <Route path="/bids" element={<BidLogs />} />
                 <Route path="/journey" element={<JourneyManager />} />
+                <Route path="/settings" element={<ManagerSettings />} />
             </Routes>
         </DashboardLayout>
     );

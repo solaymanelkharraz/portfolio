@@ -20,6 +20,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/user/settings', [AuthController::class, 'updateSettings']);
     Route::put('/hero', [PortfolioController::class, 'updateHero']);
     Route::post('/skills', [PortfolioController::class, 'storeSkill']);
     Route::put('/skills/{id}', [PortfolioController::class, 'updateSkill']);

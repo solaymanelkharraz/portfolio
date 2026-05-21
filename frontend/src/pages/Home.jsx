@@ -10,8 +10,11 @@ import AcademyEntrance from '../components/AcademyEntrance';
 import ArchiveModal from '../components/ArchiveModal';
 import TransferWindow from '../components/TransferWindow';
 import Footer from '../components/Footer';
+import HeroSkeleton from '../components/skeletons/HeroSkeleton';
+import SquadSkeleton from '../components/skeletons/SquadSkeleton';
+import ProjectsSkeleton from '../components/skeletons/ProjectsSkeleton';
 
-const Home = () => {
+const Home = ({ isLoading, heroData, skillsData, projectsData, journeyData }) => {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
   return (
@@ -45,9 +48,13 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="flex flex-col-reverse lg:flex-row items-center justify-between gap-16 lg:gap-10 w-full"
           >
-            <HeroText />
+            {isLoading ? <HeroSkeleton /> : <HeroText hero={heroData} />}
             <div className="w-full lg:w-[45%] flex justify-center lg:justify-end">
-              <ProfileImageSwap />
+              {isLoading ? (
+                <div className="w-80 h-[450px] bg-emerald-900/10 animate-pulse rounded-2xl mx-auto lg:mx-0 mt-8 lg:mt-0 border-4 border-white shadow-[0_20px_50px_rgba(0,0,0,0.12)]"></div>
+              ) : (
+                <ProfileImageSwap hero={heroData} />
+              )}
             </div>
           </motion.div>
         </section>
@@ -65,15 +72,15 @@ const Home = () => {
               <h2 className="text-5xl md:text-6xl font-black text-emerald-950 mb-2 tracking-tighter font-heading uppercase">Starting XI</h2>
               <p className="text-red-700 font-mono text-sm tracking-widest uppercase font-bold">The Tactical Board.</p>
             </div>
-            <TacticalPitch />
+            {isLoading ? <SquadSkeleton /> : <TacticalPitch skills={skillsData} />}
           </motion.div>
         </section>
 
         {/* 3. MATCH HIGHLIGHTS (Project Selection/Carousel) */}
-        <ProjectTabs />
+        {isLoading ? <ProjectsSkeleton /> : <ProjectTabs projects={projectsData} />}
 
         {/* 4. THE JOURNEY (Career Mode Timeline) */}
-        <CareerTimeline />
+        {!isLoading && <CareerTimeline events={journeyData} />}
 
         {/* 5. THE TRAINING GROUNDS (Academy Entrance) */}
         <AcademyEntrance onOpenArchive={() => setIsArchiveOpen(true)} />

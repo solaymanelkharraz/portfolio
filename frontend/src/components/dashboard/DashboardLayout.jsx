@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LayoutDashboard, User, FolderKanban, Briefcase, LogOut, ShieldCheck, ChevronRight, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, User, FolderKanban, Briefcase, LogOut, ShieldCheck, ChevronRight, TrendingUp, Settings } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ const DashboardLayout = ({ children }) => {
         { name: 'Match Highlights', icon: FolderKanban, path: '/dashboard/projects' },
         { name: 'Transfer Window Logs', icon: Briefcase, path: '/dashboard/bids' },
         { name: 'Career Journey', icon: TrendingUp, path: '/dashboard/journey' },
+        { name: 'Manager Profile', icon: Settings, path: '/dashboard/settings' },
     ];
 
     const handleLogout = () => {

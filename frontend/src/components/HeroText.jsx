@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const HeroText = () => {
-  const [hero, setHero] = useState(null);
+const HeroText = ({ hero }) => {
   const [showAlternative, setShowAlternative] = useState(false);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/hero')
-      .then(res => res.json())
-      .then(data => setHero(data))
-      .catch(err => console.error(err));
-
     const interval = setInterval(() => {
       setShowAlternative(prev => !prev);
     }, 4000);

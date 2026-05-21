@@ -31,7 +31,7 @@ const HeroAndSkills = () => {
 
     const fetchHero = async () => {
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/hero');
+            const res = await fetch('https://portfolio-lrul.onrender.com/api/hero');
             const data = await res.json();
             if (data) setHero(data);
         } catch (err) { console.error(err); }
@@ -40,7 +40,7 @@ const HeroAndSkills = () => {
 
     const fetchSkills = async () => {
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/skills');
+            const res = await fetch('https://portfolio-lrul.onrender.com/api/skills');
             const data = await res.json();
             setSkills(data);
         } catch (err) { console.error(err); }
@@ -51,7 +51,7 @@ const HeroAndSkills = () => {
         e.preventDefault();
         setSavingHero(true);
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/hero', {
+            const res = await fetch('https://portfolio-lrul.onrender.com/api/hero', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const HeroAndSkills = () => {
         setAddingSkill(true);
         const pos = categoryPositions[newSkill.category] || { x: '50%', y: '50%' };
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/skills', {
+            const res = await fetch('https://portfolio-lrul.onrender.com/api/skills', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const HeroAndSkills = () => {
         }
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/skills/${skillId}`, {
+            const res = await fetch(`https://portfolio-lrul.onrender.com/api/skills/${skillId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ const HeroAndSkills = () => {
         if (!window.confirm('Release this player from the squad?')) return;
         setSavingSkillId(skillId);
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/skills/${skillId}`, {
+            const res = await fetch(`https://portfolio-lrul.onrender.com/api/skills/${skillId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

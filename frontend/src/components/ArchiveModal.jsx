@@ -36,7 +36,7 @@ const ArchiveModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      fetch('http://127.0.0.1:8000/api/academy-projects')
+      fetch('https://portfolio-lrul.onrender.com/api/academy-projects')
         .then(res => res.json())
         .then(data => setProjects(data));
     }

@@ -5,21 +5,10 @@ import { Search, Globe, ChevronLeft, ExternalLink, Code, Trophy, Target, Cpu, Ac
 import FloatingDock from '../components/FloatingDock';
 import Footer from '../components/Footer';
 
-const FixtureList = () => {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
+const FixtureList = ({ projectsData: projects = [] }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTech, setSelectedTech] = useState('All');
     const navigate = useNavigate();
-
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/projects')
-            .then(res => res.json())
-            .then(data => {
-                setProjects(data);
-                setLoading(false);
-            });
-    }, []);
 
     const allTechs = ['All', ...new Set(projects.flatMap(p => typeof p.tech_stack === 'string' ? JSON.parse(p.tech_stack) : (p.tech_stack || [])))];
 
@@ -94,7 +83,7 @@ const FixtureList = () => {
             </div>
 
                 {/* Projects Grid */}
-                {loading ? (
+                {projects.length === 0 ? (
                     <div className="flex justify-center p-32"><Activity className="animate-spin text-emerald-900" size={48} /></div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -166,7 +155,7 @@ const FixtureList = () => {
                     </div>
                 )}
 
-                {!loading && filteredProjects.length === 0 && (
+                {projects.length > 0 && filteredProjects.length === 0 && (
                     <div className="text-center py-32 bg-white rounded-[3rem] border border-dashed border-emerald-900/10">
                         <Search size={48} className="mx-auto text-emerald-900/10 mb-6" />
                         <h3 className="text-xl font-black text-emerald-950 uppercase mb-2">No Match Records Found</h3>

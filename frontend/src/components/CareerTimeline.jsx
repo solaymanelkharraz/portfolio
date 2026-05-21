@@ -31,14 +31,7 @@ const TimelineEvent = ({ year, title, description, side }) => {
   );
 };
 
-const CareerTimeline = () => {
-  const [events, setEvents] = useState([]);
-  
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/career-events')
-      .then(res => res.json())
-      .then(data => setEvents(data));
-  }, []);
+const CareerTimeline = ({ events = [] }) => {
 
   const containerRef = React.useRef(null);
   const { scrollYProgress } = useScroll({

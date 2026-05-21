@@ -2,26 +2,53 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Activity, Code, Network, Cpu, Shield, Database, Layout, Server, Box, GitBranch } from 'lucide-react';
 
-const Player = ({ name, icon: Icon, position, type }) => {
+const playerVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100, damping: 15 }
+  }
+};
+
+const Player = ({ name, icon: Icon, position, type, constraintsRef }) => {
   const isAttackOrMid = type === 'attack' || type === 'midfield';
   const borderClass = isAttackOrMid ? 'border-rose-600' : 'border-blue-600';
   const ringClass = isAttackOrMid ? 'group-hover:border-rose-600' : 'group-hover:border-blue-600';
 
   return (
-    <div className="absolute z-20" style={{ top: position.top, left: position.left, transform: 'translate(-50%, -50%)' }}>
+    <motion.div 
+      variants={playerVariants}
+      animate={{ 
+        top: position.top, 
+        left: position.left,
+        x: 0, 
+        y: 0 
+      }}
+      transition={{ type: "spring", stiffness: 100, damping: 15 }}
+      drag
+      dragConstraints={constraintsRef}
+      dragElastic={0.1}
+      whileDrag={{ scale: 1.2, zIndex: 50 }}
+      className="absolute z-20 pointer-events-auto" 
+      style={{ 
+        marginTop: "-28px",
+        marginLeft: "-28px"
+      }}
+    >
       <motion.div 
         whileHover={{ scale: 1.15 }}
-        className="flex flex-col items-center justify-center group cursor-pointer"
+        className="flex flex-col items-center justify-center group cursor-grab active:cursor-grabbing"
       >
-        <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border-4 ${borderClass} bg-white shadow-[0_10px_20px_rgba(0,0,0,0.4)] flex items-center justify-center transition-all duration-300 relative`}>
+        <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full border-4 ${borderClass} bg-white shadow-[0_10px_20px_rgba(0,0,0,0.4)] flex items-center justify-center transition-colors relative`}>
           <Icon className={`text-slate-900`} size={22} />
           <div className={`absolute inset-0 rounded-full border-2 ${ringClass} opacity-0 group-hover:animate-ping`}></div>
         </div>
-        <span className="mt-2 text-[10px] font-mono font-bold tracking-widest uppercase bg-white px-2 py-1 rounded text-slate-900 border border-slate-200 whitespace-nowrap shadow-md">
+        <span className="mt-2 text-[10px] font-mono font-bold tracking-widest uppercase bg-white px-2 py-1 rounded text-slate-900 border border-slate-200 whitespace-nowrap shadow-md pointer-events-none">
           {name}
         </span>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -53,54 +80,100 @@ const iconMap = {
   GitBranch: GitBranch
 };
 
-const positionMapping = {
-  'GK': { x: '50%', y: '88%' },
-  'LB': { x: '18%', y: '72%' },
-  'LCB': { x: '35%', y: '78%' },
-  'CB': { x: '50%', y: '78%' },
-  'RCB': { x: '65%', y: '78%' },
-  'RB': { x: '82%', y: '72%' },
-  'LDM': { x: '40%', y: '60%' },
-  'CDM': { x: '50%', y: '60%' },
-  'RDM': { x: '60%', y: '60%' },
-  'LCM': { x: '35%', y: '45%' },
-  'CM': { x: '50%', y: '45%' },
-  'RCM': { x: '65%', y: '45%' },
-  'CAM': { x: '50%', y: '30%' },
-  'LW': { x: '18%', y: '15%' },
-  'RW': { x: '82%', y: '15%' },
-  'ST': { x: '50%', y: '10%' },
-  'CF': { x: '50%', y: '10%' }
+const presetFormations = {
+  '4-3-3': [
+    { y: '85%', x: '50%' }, // GK
+    { y: '70%', x: '20%' }, // LB
+    { y: '75%', x: '35%' }, // LCB
+    { y: '75%', x: '65%' }, // RCB
+    { y: '70%', x: '80%' }, // RB
+    { y: '45%', x: '30%' }, // LCM
+    { y: '55%', x: '50%' }, // CM
+    { y: '45%', x: '70%' }, // RCM
+    { y: '20%', x: '25%' }, // LW
+    { y: '15%', x: '50%' }, // ST
+    { y: '20%', x: '75%' }  // RW
+  ],
+  '4-4-2': [
+    { y: '85%', x: '50%' }, // GK
+    { y: '70%', x: '20%' }, // LB
+    { y: '75%', x: '35%' }, // LCB
+    { y: '75%', x: '65%' }, // RCB
+    { y: '70%', x: '80%' }, // RB
+    { y: '45%', x: '20%' }, // LM
+    { y: '50%', x: '40%' }, // LCM
+    { y: '50%', x: '60%' }, // RCM
+    { y: '45%', x: '80%' }, // RM
+    { y: '20%', x: '35%' }, // LST
+    { y: '20%', x: '65%' }  // RST
+  ],
+  '3-5-2': [
+    { y: '85%', x: '50%' }, // GK
+    { y: '75%', x: '25%' }, // LCB
+    { y: '78%', x: '50%' }, // CB
+    { y: '75%', x: '75%' }, // RCB
+    { y: '55%', x: '25%' }, // LDM
+    { y: '60%', x: '50%' }, // CDM
+    { y: '55%', x: '75%' }, // RDM
+    { y: '35%', x: '20%' }, // LM
+    { y: '35%', x: '80%' }, // RM
+    { y: '15%', x: '35%' }, // LST
+    { y: '15%', x: '65%' }  // RST
+  ]
 };
 
-const TacticalPitch = () => {
-  const [skills, setSkills] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/skills')
-      .then(res => res.json())
-      .then(data => setSkills(data));
-  }, []);
+const TacticalPitch = ({ skills = [] }) => {
+  const [formation, setFormation] = React.useState('custom');
+  const pitchRef = React.useRef(null);
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-10 relative">
+    <div className="w-full max-w-4xl mx-auto mt-6 relative">
       
-      {/* Manager Badge */}
-      <div className="absolute -top-4 -left-2 md:-left-6 z-30 pointer-events-none">
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white/90 backdrop-blur-md border border-emerald-900/10 shadow-xl rounded-xl p-3 flex flex-col items-start justify-center"
-        >
-          <span className="text-[10px] font-mono font-bold text-red-700 tracking-widest uppercase mb-1">Manager: Soulayman</span>
-          <span className="text-xs font-heading font-black text-emerald-950 uppercase">System: Full-Stack Tiki-Taka</span>
-        </motion.div>
+      {/* Tactical Controls */}
+      <div className="flex flex-wrap items-center justify-center gap-4 mb-10 relative z-30">
+        <span className="text-[10px] font-bold font-mono text-emerald-900 uppercase tracking-widest mr-2">Formation:</span>
+        {[
+          { id: 'custom', label: "Manager's Setup" },
+          { id: '4-3-3', label: '4-3-3' },
+          { id: '4-4-2', label: '4-4-2' },
+          { id: '3-5-2', label: '3-5-2' }
+        ].map(f => (
+          <button 
+            key={f.id}
+            onClick={() => setFormation(f.id)}
+            className={`px-5 py-2 font-mono font-bold uppercase text-[10px] rounded-full transition-all duration-300 border-2 shadow-sm ${
+              formation === f.id 
+                ? 'bg-emerald-800 text-white border-emerald-800 scale-105' 
+                : 'bg-white text-emerald-800 border-emerald-900/10 hover:border-emerald-800 hover:scale-105'
+            }`}
+          >
+            [ {f.label} ]
+          </button>
+        ))}
       </div>
+      
+      {/* Manager Badge (Moved into Pitch so it doesn't overlap buttons) */}
 
       {/* The Pitch Container */}
-      <div className="w-full h-[700px] relative rounded-xl overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-b from-emerald-800 to-emerald-950">
+      <div 
+        ref={pitchRef} 
+        className="w-full h-[700px] relative rounded-xl overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-b from-emerald-800 to-emerald-950"
+        style={{ position: 'relative' }}
+      >
         
+        {/* Manager Badge Overlay */}
+        <div className="absolute top-4 left-4 z-30 pointer-events-none">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-white/95 backdrop-blur-md border border-emerald-900/10 shadow-xl rounded-xl p-3 flex flex-col items-start justify-center"
+          >
+            <span className="text-[10px] font-mono font-bold text-red-700 tracking-widest uppercase mb-1">Manager: Soulayman</span>
+            <span className="text-xs font-heading font-black text-emerald-950 uppercase">System: Full-Stack Tiki-Taka</span>
+          </motion.div>
+        </div>
+
         {/* Background Grass Pattern (Subtle stripes) */}
         <div className="absolute inset-0 opacity-10 bg-[repeating-linear-gradient(0deg,transparent,transparent_40px,#000_40px,#000_80px)] pointer-events-none z-0"></div>
 
@@ -127,20 +200,38 @@ const TacticalPitch = () => {
         <div className="absolute bottom-6 right-6 w-8 h-8 border-l-2 border-t-2 border-white/30 rounded-tl-full pointer-events-none z-10"></div>
 
         {/* --- THE SQUAD (Dynamic from API) --- */}
-        {skills.filter(s => s.is_starter).map((skill) => {
-          const mappedPos = skill.position_code ? positionMapping[skill.position_code] : null;
-          const pos = mappedPos ? { top: mappedPos.y, left: mappedPos.x } : { top: skill.position_y, left: skill.position_x };
-          
-          return (
-            <Player 
-              key={skill.id}
-              name={skill.name} 
-              icon={iconMap[skill.icon_name] || Layout} 
-              position={pos} 
-              type={skill.category.toLowerCase()} 
-            />
-          );
-        })}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.1 } }
+          }}
+          className="absolute inset-0 z-20 pointer-events-none"
+        >
+          {skills.filter(s => s.is_starter).map((skill, index) => {
+            const isCustom = formation === 'custom';
+            
+            // If custom, use DB percentages. If preset, map directly by index!
+            const mappedPos = isCustom ? null : presetFormations[formation][index % 11];
+              
+            const pos = mappedPos ? { top: mappedPos.y, left: mappedPos.x } : { 
+              top: typeof skill.position_y === 'number' ? `${skill.position_y}%` : skill.position_y, 
+              left: typeof skill.position_x === 'number' ? `${skill.position_x}%` : skill.position_x 
+            };
+            
+            return (
+              <Player 
+                key={skill.id}
+                name={skill.name} 
+                icon={iconMap[skill.icon_name] || Layout} 
+                position={pos} 
+                type={skill.category.toLowerCase()} 
+                constraintsRef={pitchRef}
+              />
+            );
+          })}
+        </motion.div>
         
       </div>
 

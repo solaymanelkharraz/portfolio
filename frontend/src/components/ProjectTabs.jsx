@@ -3,24 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { ExternalLink, Code, Target, ShieldAlert, Activity } from 'lucide-react';
 
-const ProjectTabs = () => {
-  const [projects, setProjects] = useState([]);
+const ProjectTabs = ({ projects = [] }) => {
   const [activeTab, setActiveTab] = useState(null);
-  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/projects')
-      .then(res => res.json())
-      .then(data => {
-        setProjects(data);
-        const featured = data.filter(p => p.is_featured);
-        if (featured.length > 0) {
-          setActiveTab(featured[0].id);
-        } else if (data.length > 0) {
-          setActiveTab(data[0].id);
-        }
-        setLoading(false);
-      });
-  }, []);
+    if (projects.length > 0 && !activeTab) {
+      const featured = projects.filter(p => p.is_featured);
+      if (featured.length > 0) {
+        setActiveTab(featured[0].id);
+      } else {
+        setActiveTab(projects[0].id);
+      }
+    }
+  }, [projects, activeTab]);
 
   const featuredProjects = projects.filter(p => p.is_featured).slice(0, 3);
   
@@ -28,7 +23,7 @@ const ProjectTabs = () => {
 
   const activeProject = projects.find(p => p.id === activeTab);
 
-  if (loading || !activeProject) {
+  if (!activeProject) {
     return <div className="max-w-7xl mx-auto px-6 w-full mb-32 text-center text-emerald-800 font-mono">Loading Match Highlights...</div>;
   }
 

@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const ProfileImageSwap = () => {
+const ProfileImageSwap = ({ hero }) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  const [hero, setHero] = useState(null);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/hero')
-      .then(res => res.json())
-      .then(data => setHero(data));
-
     const interval = setInterval(() => {
       setIsFlipped(prev => !prev);
     }, 6000);

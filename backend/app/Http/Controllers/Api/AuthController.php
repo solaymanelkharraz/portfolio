@@ -41,4 +41,33 @@ class AuthController extends Controller
             'message' => 'Logged out successfully',
         ]);
     }
+
+    public function updateSettings(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'current_password' => 'required',
+            'new_password' => 'nullable|min:6',
+        ]);
+
+        $user = $request->user();
+
+        if (! Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'The provided current password is incorrect.',
+                'errors' => ['current_password' => ['Incorrect current password.']]
+            ], 422);
+        }
+
+        $user->email = $request->email;
+        if ($request->filled('new_password')) {
+            $user->password = Hash::make($request->new_password);
+        }
+        $user->save();
+
+        return response()->json([
+            'message' => 'Settings updated successfully.',
+            'user' => $user,
+        ]);
+    }
 }
