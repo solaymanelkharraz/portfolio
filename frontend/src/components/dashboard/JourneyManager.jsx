@@ -32,7 +32,7 @@ const JourneyManager = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth_token');
         const url = editingEvent 
             ? `http://127.0.0.1:8000/api/journey/${editingEvent.id}` 
             : 'http://127.0.0.1:8000/api/journey';
@@ -60,7 +60,7 @@ const JourneyManager = () => {
 
     const handleDelete = async (id) => {
         if (!window.confirm('Erase this milestone from history?')) return;
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth_token');
 
         try {
             const res = await fetch(`http://127.0.0.1:8000/api/journey/${id}`, {

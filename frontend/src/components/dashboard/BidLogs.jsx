@@ -10,7 +10,7 @@ const BidLogs = () => {
     useEffect(() => {
         const fetchBids = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('auth_token');
                 const res = await fetch('http://127.0.0.1:8000/api/bids', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -34,7 +34,7 @@ const BidLogs = () => {
         if (!window.confirm('Terminate this negotiation record?')) return;
         
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('auth_token');
             const res = await fetch(`http://127.0.0.1:8000/api/bids/${id}`, {
                 method: 'DELETE',
                 headers: {

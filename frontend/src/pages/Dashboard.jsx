@@ -31,7 +31,7 @@ const Overview = () => (
 
 
 const Dashboard = () => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('auth_token')) {
         return <Navigate to="/login" replace />;
     }
 
