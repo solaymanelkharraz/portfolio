@@ -19,9 +19,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:5173')],
+    'allowed_origins' => [
+        env('FRONTEND_URL', 'http://localhost:5173'),
+        'https://solayman.vercel.app'
+    ],
 
-    'allowed_origins_patterns' => ['.*'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
