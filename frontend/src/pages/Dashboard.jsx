@@ -31,6 +31,10 @@ const Overview = () => (
 
 
 const Dashboard = () => {
+    if (!localStorage.getItem('token')) {
+        return <Navigate to="/login" replace />;
+    }
+
     return (
         <DashboardLayout>
             <Routes>
