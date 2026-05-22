@@ -21,23 +21,23 @@ const ProfileImageSwap = ({ hero }) => {
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Front - Profile */}
+        {/* Front - Goat */}
         <div className="absolute inset-0 rounded-xl overflow-hidden bg-white" style={{ backfaceVisibility: "hidden" }}>
-          <img 
-            src="/profile.jpeg" 
-            alt="Soulayman Elkharraz" 
-            className="w-full h-full object-cover" 
-            onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop' }} 
-          />
-        </div>
-        
-        {/* Back - Goat */}
-        <div className="absolute inset-0 rounded-xl overflow-hidden bg-white" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
           <img 
             src="/goat.jpg" 
             alt="Soulayman Illustration" 
             className="w-full h-full object-cover" 
             onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1560415755-bd80d06eda60?q=80&w=800&auto=format&fit=crop' }} 
+          />
+        </div>
+        
+        {/* Back - Profile */}
+        <div className="absolute inset-0 rounded-xl overflow-hidden bg-white" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <img 
+            src="/profile.jpeg" 
+            alt="Soulayman Elkharraz" 
+            className="w-full h-full object-cover" 
+            onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop' }} 
           />
         </div>
       </motion.div>
