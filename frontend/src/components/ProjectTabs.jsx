@@ -104,14 +104,16 @@ const ProjectTabs = ({ projects = [] }) => {
                 </div>
 
                 {/* Post-Match Analytics Column */}
-                <div className="w-full sm:w-1/3 bg-emerald-900 text-white p-5 rounded-xl flex flex-col justify-center gap-4 shadow-inner relative overflow-hidden">
-                   <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/20 blur-[30px] rounded-full pointer-events-none -mr-10 -mt-10"></div>
-                   {Object.entries(activeProject.metrics || {}).map(([key, value]) => (
-                     <div key={key} className="border-b border-emerald-800/50 pb-3 mb-1 last:border-0 last:pb-0 last:mb-0 relative z-10">
-                       <div className="text-[10px] text-emerald-300 font-mono uppercase tracking-wider mb-1">{key}</div>
-                       <div className="text-2xl font-black font-heading tracking-tighter text-white">{value}</div>
-                     </div>
-                   ))}
+                <div className="w-full sm:w-1/3 bg-emerald-900 text-white p-5 rounded-xl flex flex-col justify-start gap-4 shadow-inner relative overflow-y-auto overflow-x-hidden">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/20 blur-[30px] rounded-full pointer-events-none -mr-10 -mt-10 z-0"></div>
+                   <div className="relative z-10 flex flex-col gap-4">
+                     {Object.entries(activeProject.metrics || {}).map(([key, value]) => (
+                       <div key={key} className="border-b border-emerald-800/50 pb-3 mb-1 last:border-0 last:pb-0 last:mb-0">
+                         <div className="text-[10px] text-emerald-300 font-mono uppercase tracking-wider mb-1">{key}</div>
+                         <div className="text-2xl font-black font-heading tracking-tighter text-white">{value}</div>
+                       </div>
+                     ))}
+                   </div>
                 </div>
               </div>
             </div>

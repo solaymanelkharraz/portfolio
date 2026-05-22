@@ -20,7 +20,7 @@ const ProjectsManager = () => {
         problem: '',
         solution: '',
         tech_stack: [],
-        metrics: { lighthouse: 95, query_speed: '45ms', db_load: '12%' },
+        metrics: { 'Lighthouse': '95%', 'Query': '45ms', 'DB Load': '12%' },
         live_url: '',
         source_url: '',
         is_featured: false
@@ -53,9 +53,18 @@ const ProjectsManager = () => {
 
     const handleEdit = (project) => {
         setEditingProject(project);
+        const parsedMetrics = typeof project.metrics === 'string' ? JSON.parse(project.metrics) : (project.metrics || initialFormState.metrics);
+        
+        // Clean up duplicate/lowercase keys from previous saves
+        const cleanMetrics = {
+            'Lighthouse': parsedMetrics['Lighthouse'] || parsedMetrics.lighthouse || '',
+            'Query': parsedMetrics['Query'] || parsedMetrics.query_speed || '',
+            'DB Load': parsedMetrics['DB Load'] || parsedMetrics.db_load || ''
+        };
+
         setFormData({
             ...project,
-            metrics: typeof project.metrics === 'string' ? JSON.parse(project.metrics) : (project.metrics || initialFormState.metrics),
+            metrics: cleanMetrics,
             tech_stack: typeof project.tech_stack === 'string' ? JSON.parse(project.tech_stack) : (project.tech_stack || [])
         });
         setIsFormOpen(true);
@@ -265,20 +274,19 @@ const ProjectsManager = () => {
                                                 <label className="text-[8px] font-black uppercase tracking-widest text-emerald-900/40 ml-1">Lighthouse</label>
                                                 <div className="relative">
                                                     <input 
-                                                        type="number"
-                                                        value={formData.metrics.lighthouse}
-                                                        onChange={(e) => setFormData({...formData, metrics: {...formData.metrics, lighthouse: e.target.value}})}
+                                                        type="text"
+                                                        value={formData.metrics['Lighthouse'] || ''}
+                                                        onChange={(e) => setFormData({...formData, metrics: {...formData.metrics, 'Lighthouse': e.target.value}})}
                                                         className="w-full bg-[#F8F9FA] border border-emerald-900/5 rounded-lg py-2 px-3 text-xs font-black text-emerald-950"
                                                     />
-                                                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-bold opacity-30">%</span>
                                                 </div>
                                             </div>
                                             <div className="space-y-1">
                                                 <label className="text-[8px] font-black uppercase tracking-widest text-emerald-900/40 ml-1">Query Speed</label>
                                                 <input 
                                                     type="text"
-                                                    value={formData.metrics.query_speed}
-                                                    onChange={(e) => setFormData({...formData, metrics: {...formData.metrics, query_speed: e.target.value}})}
+                                                    value={formData.metrics['Query'] || ''}
+                                                    onChange={(e) => setFormData({...formData, metrics: {...formData.metrics, 'Query': e.target.value}})}
                                                     className="w-full bg-[#F8F9FA] border border-emerald-900/5 rounded-lg py-2 px-3 text-xs font-black text-emerald-950"
                                                 />
                                             </div>
@@ -286,8 +294,8 @@ const ProjectsManager = () => {
                                                 <label className="text-[8px] font-black uppercase tracking-widest text-emerald-900/40 ml-1">DB Load</label>
                                                 <input 
                                                     type="text"
-                                                    value={formData.metrics.db_load}
-                                                    onChange={(e) => setFormData({...formData, metrics: {...formData.metrics, db_load: e.target.value}})}
+                                                    value={formData.metrics['DB Load'] || ''}
+                                                    onChange={(e) => setFormData({...formData, metrics: {...formData.metrics, 'DB Load': e.target.value}})}
                                                     className="w-full bg-[#F8F9FA] border border-emerald-900/5 rounded-lg py-2 px-3 text-xs font-black text-emerald-950"
                                                 />
                                             </div>
