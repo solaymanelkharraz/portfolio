@@ -209,7 +209,7 @@ const TacticalPitch = ({ skills = [] }) => {
           }}
           className="absolute inset-0 z-20 pointer-events-none"
         >
-          {skills.filter(s => s.is_starter && s.is_starter !== '0' && s.is_starter !== 0).map((skill, index) => {
+          {skills.filter(s => s.is_starter === true || s.is_starter === 1 || s.is_starter === '1' || s.is_starter === 'true').map((skill, index) => {
             const isCustom = formation === 'custom';
             
             // If custom, use DB percentages. If preset, map directly by index!
@@ -241,10 +241,10 @@ const TacticalPitch = ({ skills = [] }) => {
           Substitutes Bench:
         </div>
         <div className="flex gap-6 overflow-x-auto w-full justify-center md:justify-start py-2">
-          {skills.filter(s => !s.is_starter || s.is_starter === '0' || s.is_starter === 0).map(skill => (
+          {skills.filter(s => !(s.is_starter === true || s.is_starter === 1 || s.is_starter === '1' || s.is_starter === 'true')).map(skill => (
             <SubPlayer key={skill.id} name={skill.name} icon={iconMap[skill.icon_name] || Layout} />
           ))}
-          {skills.filter(s => !s.is_starter || s.is_starter === '0' || s.is_starter === 0).length === 0 && (
+          {skills.filter(s => !(s.is_starter === true || s.is_starter === 1 || s.is_starter === '1' || s.is_starter === 'true')).length === 0 && (
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">No substitutes selected</span>
           )}
         </div>
