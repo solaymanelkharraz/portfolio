@@ -118,7 +118,7 @@ const TransferWindow = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <a href="/pdf/Resume_Full_Stack_Developer.pdf" download="Resume_Solayman_EN.pdf" className="flex-1 bg-emerald-800 text-white font-bold font-mono text-[10px] uppercase tracking-widest py-3 rounded hover:bg-emerald-900 transition-all shadow-md flex items-center justify-center">
+                <a href="/pdf/Full_Stack_Developer_Resume.pdf" download="Resume_Solayman_EN.pdf" className="flex-1 bg-emerald-800 text-white font-bold font-mono text-[10px] uppercase tracking-widest py-3 rounded hover:bg-emerald-900 transition-all shadow-md flex items-center justify-center">
                   📄 DOWNLOAD CV (EN)
                 </a>
                 <a href="/pdf/Resume_Développeur_Full_Stack.pdf" download="Resume_Solayman_FR.pdf" className="flex-1 bg-white text-emerald-800 border-2 border-emerald-800 font-bold font-mono text-[10px] uppercase tracking-widest py-3 rounded hover:bg-emerald-50 transition-all shadow-md flex items-center justify-center">
